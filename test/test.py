@@ -1,10 +1,13 @@
+
 from transformer import Document, Schema
+
+
 import csv
 
 class NewSchema(Schema):
 
     Name        = Column(source="B")
-    Date        = Column(source=1), transform=transforms.date.format_to_format())
+    Date        = Column(source=1, transform=transforms.date.format_to_format())
     Addr        = Column(source="D")
     PriceData   = Column(source="C", transform=transforms.number.string_to_decimal(), title="Price Data")
 
