@@ -1,15 +1,12 @@
-
-from transformer import Document, Schema
-
-
+from transformer import Document, Schema, Column
 import csv
 
 class NewSchema(Schema):
 
-    Name        = Column(source="B")
-    Date        = Column(source=1, transform=transforms.date.format_to_format())
-    Addr        = Column(source="D")
-    PriceData   = Column(source="C", transform=transforms.number.string_to_decimal(), title="Price Data")
+    Name        = Column("B")
+    Date        = Column(1, transform=transforms.date.format_to_format())
+    Addr        = Column("D")
+    PriceData   = Column("C", transform=transforms.number.string_to_decimal(), title="Price Data")
 
     _ordering = [Name, Date, Addr, PriceData]
 
