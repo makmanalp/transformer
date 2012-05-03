@@ -1,0 +1,36 @@
+Old Columns:
+
+A       B       C       D
+str     str     str     str
+
+
+New Columns:
+
+Name    Date    Addr    Price Data
+B       A       D       C
+str     date    str     decimal
+
+
+def column_transform(old):
+    return operation(old)
+
+
+transforms.regex()
+transforms.identity()
+transforms.string.to_string()
+transforms.date.format_to_format()
+transforms.number.decimal_to_int()
+transforms.number.int_to_decimal()
+
+
+=====================================
+
+class Doc(CSVDocument):
+
+    Name        = Column(source=Ref(title="B"))
+    Date        = Column(source=Ref(index=1), transform=transforms.date.format_to_format())
+    Addr        = Column(source=Ref(title="D"))
+    PriceData   = Column(source=Ref(title="C"), transform=transforms.number.string_to_decimal(), title="Price Data")
+
+    _ordering = [Name, Date, Addr, PriceData]
+
