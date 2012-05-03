@@ -27,10 +27,10 @@ transforms.number.int_to_decimal()
 
 class Doc(CSVDocument):
 
-    Name        = Column(source=Ref(title="B"))
-    Date        = Column(source=Ref(index=1), transform=transforms.date.format_to_format())
-    Addr        = Column(source=Ref(title="D"))
-    PriceData   = Column(source=Ref(title="C"), transform=transforms.number.string_to_decimal(), title="Price Data")
+    Name        = Column(source="B")
+    Date        = Column(source=1, transform=transforms.date.format_to_format())
+    Addr        = Column(source=Ref("D", offset=1))
+    PriceData   = Column(source="C", transform=transforms.number.string_to_decimal(), title="Price Data")
 
     _ordering = [Name, Date, Addr, PriceData]
 
