@@ -7,7 +7,7 @@ class format_to_format(object):
         self.to_format = to_format
 
     def run(self, val):
-        time_tuple = time.strptime(value, self.from_format)
+        time_tuple = time.strptime(val, self.from_format)
         if not self.to_format:
             return time.mktime(time_tuple)
         else:
