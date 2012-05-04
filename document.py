@@ -12,11 +12,11 @@ class Document(object):
             self.title_xref[title] = idx
 
     def get_info(self):
-        self.sample = self.file.read(2048)
+        self.sample = self.f.read(2048)
         self.f.seek(0,0) #reset back to beginning for later use
         self.dialect = csv.Sniffer().sniff(self.sample)
         self.reader = csv.reader(self.f, self.dialect)
 
-        if Dialect.has_header(sample):
+        if csv.Sniffer().has_header(self.sample):
             self.header = csv.reader(self.f, self.dialect).next()
             self.construct_title_xref()
