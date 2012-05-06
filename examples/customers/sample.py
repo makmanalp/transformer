@@ -9,6 +9,6 @@ class NewSchema(Schema):
 
     _ordering = [Name, Date, Addr, PriceData]
 
-with open("test/sample_old.tsv", "r") as f:
+with open("sample_old.tsv", "r") as f:
     old_doc  = Document(f)
     NewSchema.transform(old_doc)
