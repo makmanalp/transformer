@@ -23,6 +23,6 @@ class Schema(object):
                 else:
                     index = document.title_xref[column.source]
                 new_data = column.transform.run(line[index])
-                new_line += [str(new_data)]
+                new_line += [new_data]
             yield new_line
 
