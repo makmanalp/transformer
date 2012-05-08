@@ -24,5 +24,5 @@ class Schema(object):
                     index = document.title_xref[column.source]
                 new_data = column.transform.run(line[index])
                 new_line += [str(new_data)]
-            print new_line
+            yield new_line
 
