@@ -12,7 +12,9 @@ class Document(object):
             self.title_xref[title] = idx
 
     def get_info(self):
-        self.sample = self.f.read(2048)
+        self.sample=""
+        for x in xrange(0,10):
+            self.sample += self.f.readline()
         self.f.seek(0,0) #reset back to beginning for later use
         self.dialect = csv.Sniffer().sniff(self.sample)
         self.reader = csv.reader(self.f, self.dialect)
