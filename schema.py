@@ -5,7 +5,7 @@ class Schema(object):
     _ordering = []
 
     @classmethod
-    def transform(cls, document):
+    def transform(cls, document, dictionary=False):
         if hasattr(document, "header"):
             document.reader.next()
 
@@ -24,5 +24,8 @@ class Schema(object):
                     index = document.title_xref[column.source]
                 new_data = column.transform.run(line[index])
                 new_line += [new_data]
-            yield new_line
+            if dictionary:
+                yield dict(zip([col.title for col in cls._ordering], new_line))
+            else:
+                yield new_line
 
