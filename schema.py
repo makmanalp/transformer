@@ -1,8 +1,29 @@
 from transformer import Column
 
+class ParsingException(Exception):
+
+    def __init__(self, document, column, line, line_number, cause):
+        self.line = line
+        self.line_number = line_number
+        self.column = column
+        self.document = document
+        self.cause = cause
+
+    def __str__(self):
+        index = Schema.resolve_source(self.document, self.column)
+        data = self.line[index]
+        return "Parsing Exception:\nLine Number: %s\nCol: %s\nLine: %s\nIdx: %s\nData: %s\nCause: %s\n" %(self.line_number,self.column, self.line, index, data, self.cause)
+
 class Schema(object):
 
     _ordering = []
+
+    @staticmethod
+    def resolve_source(document, column):
+        if isinstance(column.source, int):
+            return column.source
+        else:
+            return document.title_xref[column.source]
 
     @classmethod
     def transform(cls, document, dictionary=False):
@@ -14,15 +35,15 @@ class Schema(object):
                 if not v.title:
                     v.title = k
 
-        for line in document.reader:
+        for line_num, line in enumerate(document.reader):
             new_line = []
             for column in cls._ordering:
-                index = -1
-                if isinstance(column.source, int):
-                    index = column.source
-                else:
-                    index = document.title_xref[column.source]
-                new_data = column.transform.run(line[index])
+                index = cls.resolve_source(document, column)
+                new_data = None
+                try:
+                    new_data = column.transform.run(line[index])
+                except Exception as ex:
+                    raise ParsingException(document, column, line, line_num, ex)
                 new_line += [new_data]
             if dictionary:
                 yield dict(zip([col.title for col in cls._ordering], new_line))
