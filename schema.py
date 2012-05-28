@@ -10,6 +10,8 @@ class ParsingException(Exception):
         self.cause = cause
 
     def __str__(self):
+        if hasattr(self.document, "header"):
+            self.line_number += 1
         index = Schema.resolve_source(self.document, self.column)
         data = self.line[index]
         return "Parsing Exception:\nLine Number: %s\nCol: %s\nLine: %s\nIdx: %s\nData: %s\nCause: %s\n" %(self.line_number,self.column, self.line, index, data, self.cause)
