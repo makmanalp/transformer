@@ -6,6 +6,7 @@ class Document(object):
         self.f = file
         self.dialect = dialect
         self.get_info()
+        self.dialect = dialect
 
     def construct_title_xref(self):
         self.title_xref = {}
