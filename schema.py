@@ -28,7 +28,7 @@ class Schema(object):
             return document.title_xref[column.source]
 
     @classmethod
-    def transform(cls, document, dictionary=False):
+    def transform(cls, document, dictionary=False, ignore_empty=True):
         if hasattr(document, "header"):
             document.reader.next()
 
@@ -42,10 +42,18 @@ class Schema(object):
             for column in cls._ordering:
                 index = cls.resolve_source(document, column)
                 new_data = None
-                try:
-                    new_data = column.transform.run(line[index])
-                except Exception as ex:
-                    raise ParsingException(document, column, line, line_num, ex)
+                if line[index] == "":
+                    if not ignore_empty:
+                        try:
+                            new_data = column.transform.run(line[index])
+                        except Exception as ex:
+                            raise ParsingException(document, column, line, line_num, ex)
+                else:
+                    try:
+                        new_data = column.transform.run(line[index])
+                    except Exception as ex:
+                        raise ParsingException(document, column, line, line_num, ex)
+
                 new_line += [new_data]
             if dictionary:
                 yield dict(zip([col.title for col in cls._ordering], new_line))
