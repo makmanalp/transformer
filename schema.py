@@ -1,4 +1,4 @@
-from transformer import Column, ParsingException
+from transformer import Column, Aggregate, ParsingException
 
 class Schema(object):
 
@@ -10,7 +10,7 @@ class Schema(object):
             document.reader.next()
 
         for k,v in cls.__dict__.iteritems():
-            if isinstance(v, Column):
+            if isinstance(v, Column) or isinstance(v, Aggregate):
                 if not v.title:
                     v.title = k
 
@@ -18,14 +18,21 @@ class Schema(object):
             new_line = []
             for column in cls._ordering:
 
+
+
+
                 #For each column, we run the transform for that column (which
                 #fetches the data by itself). If there is an error condition, we
                 #grab the parsing exception from the transform and annotate it
                 #nicely.
                 try:
                     #TODO:maybe push 2 steps into col class
-                    raw_data = column.fetch_data(document, line)
-                    data = column.transform_column(raw_data)
+                    if isinstance(column, Column):
+                        raw_data = column.fetch_data(document, line)
+                        data = column.transform_column(raw_data)
+                    elif isinstance(column, Aggregate):
+                        raw_datas = column.fetch_data(document, line)
+                        data = column.merge_aggregate(raw_datas)
                 except ParsingException as pe:
                     pe.document = document
                     pe.line = line
