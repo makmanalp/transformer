@@ -28,6 +28,9 @@ class Column(object):
 
     def transform_column(self, data):
         try:
-            return self.transform.run(data)
+            if hasattr(self.transform, "__call__"):
+                return self.transform(data)
+            else:
+                return self.transform.run(data)
         except Exception as ex:
             raise ParsingException(column=self, cause=ex)
