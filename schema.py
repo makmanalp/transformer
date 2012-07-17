@@ -64,27 +64,26 @@ class Schema(object):
             it nicely with line numbers.
             """
             for column in cls._ordering:
+
+
+                raw_data = column.fetch_data(document, line)
+                if raw_data == "" and ignore_empty:
+                    new_line += [None]
+                    continue
+
                 try:
                     if isinstance(column, Column):
-                        raw_data = column.fetch_data(document, line)
                         data = column.transform_column(raw_data)
                     elif isinstance(column, Aggregate):
-                        raw_datas = column.fetch_data(document, line)
-                        data = column.merge_aggregate(raw_datas)
+                        data = column.merge_aggregate(raw_data)
                 except ParsingException as pe:
                     pe.document = document
                     pe.line = line
                     pe.line_number = line_num
+                    print pe
                     raise pe
 
-                new_data = None
-                if data == "":
-                    if not ignore_empty:
-                        new_data = data
-                else:
-                    new_data = data
-
-                new_line += [new_data]
+                new_line += [data]
 
             if dictionary:
                 yield dict(zip([col.title for col in cls._ordering], new_line))
