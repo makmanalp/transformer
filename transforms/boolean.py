@@ -12,12 +12,12 @@ class boolean(object):
     """
 
     true  = [True, "t", "true", "y", "yes", "on", "1", 1]
-    false = [False, "f", "false", "n", no", "off", "0", 0]
+    false = [False, "f", "false", "n", "no", "off", "0", 0]
 
     def run(self, val):
         if val in boolean.true:
             return True
         elif val in boolean.false:
-            return false
+            return False
         else:
             return None
