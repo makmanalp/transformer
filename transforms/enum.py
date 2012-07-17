@@ -5,5 +5,5 @@ class enum(object):
         self.enum_dict = enumdict
 
     def run(self, val):
-        if not self.enum_dict:
+        if self.enum_dict:
             self.enum_dict.get(val, None)
