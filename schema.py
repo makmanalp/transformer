@@ -75,6 +75,7 @@ class Schema(object):
                     pe.document = document
                     pe.line = line
                     pe.line_number = line_num
+                    raise pe
 
                 new_data = None
                 if data == "":
