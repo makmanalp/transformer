@@ -11,7 +11,7 @@ class Document(object):
     def construct_title_xref(self):
         self.title_xref = {}
         for idx, title in enumerate(self.header):
-            self.title_xref[title] = idx
+            self.title_xref[title.lower()] = idx
 
     def get_info(self):
 
@@ -29,6 +29,6 @@ class Document(object):
         if csv.Sniffer().has_header(self.sample):
             self.header = csv.reader(self.f, self.dialect).next()
             if self.encoding:
-                self.header = self.header.decode(self.encoding)
+                self.header = [x.decode(self.encoding) for x in self.header]
             self.construct_title_xref()
             self.f.seek(0,0)

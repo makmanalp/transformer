@@ -19,7 +19,7 @@ class Column(object):
             return self.source
         else:
             try:
-                return document.title_xref.get[self.source.lower()]
+                return document.title_xref[self.source.lower()]
             except KeyError:
                 raise Exception("Could not find column '%s' in document %s. Possible columns are: %s."% (self.source.lower(), document.f, document.title_xref))
             except AttributeError:
