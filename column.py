@@ -18,7 +18,13 @@ class Column(object):
         if isinstance(self.source, int):
             return self.source
         else:
-            return document.title_xref[self.source]
+            try:
+                return document.title_xref.get[self.source.lower()]
+            except KeyError:
+                raise Exception("Could not find column '%s' in document %s. Possible columns are: %s."% (self.source.lower(), document.f, document.title_xref))
+            except AttributeError:
+                raise Exception("Can't refer to columns by name (you referred to '%s') in document %s. Does the CSV have a header?" % (self.source.lower(), document.f))
+
 
     def fetch_data(self, document, line):
         """Given a line and the document it is in, get the data at that line
