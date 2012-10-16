@@ -2,11 +2,11 @@ import csv
 
 class Document(object):
 
-    def __init__(self, file, dialect=None):
+    def __init__(self, file, dialect=None, encoding=None):
         self.f = file
         self.dialect = dialect
+        self.encoding = encoding
         self.get_info()
-        self.dialect = dialect
 
     def construct_title_xref(self):
         self.title_xref = {}
@@ -28,5 +28,7 @@ class Document(object):
 
         if csv.Sniffer().has_header(self.sample):
             self.header = csv.reader(self.f, self.dialect).next()
+            if self.encoding:
+                self.header = self.header.decode(self.encoding)
             self.construct_title_xref()
             self.f.seek(0,0)

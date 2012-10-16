@@ -59,6 +59,9 @@ class Schema(object):
         for line_num, line in enumerate(document.reader):
             new_line = []
 
+            if document.encoding:
+                line = line.decode(document.encoding)
+
             """
             Then we process each column and if there is an error, we annotate
             it nicely with line numbers.
