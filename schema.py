@@ -60,7 +60,7 @@ class Schema(object):
             new_line = []
 
             if document.encoding:
-                line = line.decode(document.encoding)
+                line = [x.decode(document.encoding) for x in line]
 
             """
             Then we process each column and if there is an error, we annotate
