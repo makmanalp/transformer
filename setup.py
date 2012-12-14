@@ -9,5 +9,5 @@ setup(name='transformer',
       author_email='mali@akmanalp.com',
       url='https://github.com/makmanalp/transformer',
       packages=['transformer', 'transformer.transforms', 'transformer.mergers'],
-      package_dir={'':'../'}
+      package_dir={'transformer':''}
       )
