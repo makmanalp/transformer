@@ -16,7 +16,7 @@ import string
 
 class AbsenteeSchema(Schema):
 
-transform=transforms.number.string_to_integer()
+    transform=transforms.number.string_to_integer()
 
     Name = Column("JurisName", transform=string.capwords)
     A1 = Column("A1", transform=lambda x: x/1000, title="A1 count in thousands")
